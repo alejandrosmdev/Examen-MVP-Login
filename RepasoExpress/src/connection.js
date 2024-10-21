@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 // Configuración de la conexión a la base de datos MySQL
 const myPool = mysql.createPool({
-    host: '127.0.0.1',          // Dirección del servidor MySQL (localhost si es local)
+    host: '127.0.0.1',          // Dirección del servidor MySQL (localhost o la IP del MariaDB)
     user: 'root',         // Usuario de MySQL
     password: '',    // Contraseña del usuario de MySQL
     database: 'repasomvp',   // Nombre de la base de datos en MySQL
@@ -35,7 +35,7 @@ app.listen(PORT, () => {
 });
 
 async function loginUser(email, password) {
-    const [rows] = await myPool.query('SELECT * FROM usuarios WHERE email = ? AND password = ?', [email, password]);
+    const [rows] = await myPool.query('SELECT * FROM usuarios WHERE email = ? AND password = ?', [email, password]);//Se podria meter directamente en el metodo del app.post
     return rows; // rows siempre será un array
 }
 
@@ -45,10 +45,9 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const users = await loginUser(email, password); // Cambia 'user' a 'users'
+        const users = await loginUser(email, password);
         if (users && users.length > 0) { // Verifica si 'users' es un array y tiene elementos
             const user = users[0]; // Toma el primer usuario
-            // Aquí puedes agregar la lógica para verificar la contraseña
             res.json({ message: 'Login successful', user });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });

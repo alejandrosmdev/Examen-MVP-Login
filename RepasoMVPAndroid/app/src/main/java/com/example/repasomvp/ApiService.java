@@ -10,7 +10,8 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
-    static final String IP_BASE = "192.168.104.73:3000";
+//    static final String IP_BASE = "192.168.104.73:3000"; IP DE CLASE
+    static final String IP_BASE = "10.0.2.2:3000";
 
     @Headers({
             "Accept: application/json",
